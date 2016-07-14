@@ -29,11 +29,12 @@ RUN conda config --add channels r && \
     && conda clean -tipsy
 
 RUN R --vanilla -e "\
-    install.packages(c('forecast', 'lubridate'), \
+    install.packages(c('forecast', 'lubridate', 'ROCR'), \
     repos='http://cran.us.r-project.org', \
     lib='${CONDA_DIR}/lib/R/library')"
 
 RUN conda install -n root --quiet --yes \
-    'seaborn' && conda clean -tipsy
+    'seaborn' 'mkl' 'mkl-service' 'mkl-rt' \
+    && conda clean -tipsy
 
 RUN pip3 install 'rpy2==2.8.*' 'matplotlib_venn==0.11.*'
