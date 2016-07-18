@@ -37,4 +37,7 @@ RUN conda install -n root --quiet --yes \
     'seaborn' 'mkl' 'mkl-service' 'mkl-rt' \
     && conda clean -tipsy
 
-RUN pip3 install 'rpy2==2.8.*' 'matplotlib_venn==0.11.*'
+RUN pip3 install \
+    'rpy2==2.8.*' \
+    'matplotlib_venn==0.11.*' \
+    'git+git://github.com/paulgb/sklearn-pandas.git@7a3c997a00d23135cfcfe6320c4886cdbccf6ee8'
