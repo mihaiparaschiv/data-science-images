@@ -1,51 +1,29 @@
-FROM jupyter/pyspark-notebook:latest
+# Copyright (c) Mihai Paraschiv.
+# Distributed under the terms of the Modified BSD License.
+
+FROM mihaiparaschiv/data-science-base:0.1.0
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
+
 
 USER root
 
-# RSpark configuration
+# Install Spark
+ENV APACHE_SPARK_VERSION 1.6.1
+RUN apt-get -y update && \
+    apt-get install -y --no-install-recommends openjdk-7-jre-headless && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN cd /tmp && \
+        wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6.tgz && \
+        echo "09f3b50676abc9b3d1895773d18976953ee76945afa72fa57e6473ce4e215970 *spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6.tgz" | sha256sum -c - && \
+        tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6.tgz -C /usr/local && \
+        rm spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6.tgz
+RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6 spark
+
+# Spark configuration
+ENV SPARK_HOME /usr/local/spark
+ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.9-src.zip
+ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 ENV R_LIBS_USER $SPARK_HOME/R/lib
 
-# libraries needed for R and rpy2
-# x11 is needed for plotting in r
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    fonts-dejavu \
-    gfortran \
-    gcc \
-    libreadline-gplv2-dev \
-    x11vnc \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
 USER $NB_USER
-
-
-# Update Python 3 environment #################################################
-
-# update all python packages
-RUN conda update -n root --all --quiet --yes
-
-# install R
-RUN conda config --add channels r && \
-    conda install -n root --quiet --yes \
-    'r-base=3.2*' \
-    'r-essentials=1*' \
-    && conda clean -tipsy
-
-# install R packages
-RUN R --vanilla -e "\
-    install.packages(c('forecast', 'lubridate', 'ROCR'), \
-    repos='http://cran.us.r-project.org', \
-    lib='${CONDA_DIR}/lib/R/library')"
-
-# update packages available in Anaconda
-RUN conda install -n root --quiet --yes \
-    'seaborn' 'mkl' 'mkl-service' 'mkl-rt' \
-    && conda clean -tipsy
-
-# install other Python packages
-RUN pip3 install \
-    'rpy2==2.8.*' \
-    'matplotlib_venn==0.11.*' \
-    'git+git://github.com/paulgb/sklearn-pandas.git@7a3c997a00d23135cfcfe6320c4886cdbccf6ee8'
