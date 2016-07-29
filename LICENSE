@@ -30,7 +30,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Images in this project are based on https://github.com/jupyter/docker-stacks/.
-For base images license, see: https://github.com/jupyter/docker-stacks/blob/master/LICENSE.md.
+For base images license, see https://github.com/jupyter/docker-stacks/blob/master/LICENSE.md.
 
 With this in mind, the following banner should be used in any source code file
 to indicate the copyright and license terms:
