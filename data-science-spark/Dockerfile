@@ -1,7 +1,7 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
-FROM mihaiparaschiv/data-science-base:0.1.0
+FROM mihaiparaschiv/data-science-base:0.2.0
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 
 
