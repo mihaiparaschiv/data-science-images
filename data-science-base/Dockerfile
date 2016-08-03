@@ -66,6 +66,6 @@ RUN conda config --add channels r && \
 
 # Install additional R packages
 RUN R --vanilla -e "\
-    install.packages(c('lubridate', 'ROCR', 'BTYD'), \
+    install.packages(c('ROCR', 'BTYD'), \
     repos='http://cran.us.r-project.org', \
     lib='${CONDA_DIR}/lib/R/library')"
