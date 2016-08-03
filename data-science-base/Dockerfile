@@ -24,17 +24,14 @@ RUN apt-get update && \
 USER $NB_USER
 
 
-# Update Python 3 environment #################################################
+# Install Python packages in Python 3 environment #############################
 
-# update all python packages
-RUN conda update -n root --all --quiet --yes
-
-# update packages available in Anaconda
+# Update packages available in Anaconda
 RUN conda install -n root --quiet --yes \
-    'seaborn' 'mkl' 'mkl-service' 'mkl-rt' \
+    'seaborn' \
     && conda clean -tipsy
 
-# install other Python packages
+# Install other Python packages
 RUN pip3 install \
     'lifelines==0.9.*' \
     'lifetimes==0.2.*' \
@@ -44,17 +41,31 @@ RUN pip3 install \
 
 # Install R ###################################################################
 
-# install R in Python 3 environment
+# Install R in Python 3 environment
 RUN conda config --add channels r && \
-    conda install -n root --quiet --yes \
-    'r-base=3.2*' \
-    'r-essentials=1*' \
+    conda install --quiet --yes \
+    'r-base=3.3*' \
+    'rpy2=2.8*' \
+    'r-irkernel=0.6*' \
+    'r-plyr=1.8*' \
+    'r-devtools=1.11*' \
+    'r-dplyr=0.4*' \
+    'r-ggplot2=2.1*' \
+    'r-tidyr=0.5*' \
+    'r-shiny=0.13*' \
+    'r-rmarkdown=0.9*' \
+    'r-forecast=7.1*' \
+    'r-stringr=1.0*' \
+    'r-rsqlite=1.0*' \
+    'r-reshape2=1.4*' \
+    'r-caret=6.0*' \
+    'r-rcurl=1.95*' \
+    'r-randomforest=4.6*' \
+    'r-lubridate=1.5*' \
     && conda clean -tipsy
 
-# install R packages
+# Install additional R packages
 RUN R --vanilla -e "\
-    install.packages(c('forecast', 'lubridate', 'ROCR', 'BTYD'), \
+    install.packages(c('lubridate', 'ROCR', 'BTYD'), \
     repos='http://cran.us.r-project.org', \
     lib='${CONDA_DIR}/lib/R/library')"
-
-RUN pip3 install 'rpy2==2.8.*'
