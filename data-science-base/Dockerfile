@@ -1,7 +1,7 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
-FROM jupyter/scipy-notebook:1d374670daaa
+FROM jupyter/scipy-notebook:54838ed4acb1
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 
 
