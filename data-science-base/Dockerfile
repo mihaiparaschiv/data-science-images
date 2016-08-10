@@ -62,6 +62,7 @@ RUN conda config --add channels r && \
     'r-rcurl=1.95*' \
     'r-randomforest=4.6*' \
     'r-lubridate=1.5*' \
+    'r-xts=0.9*' \
     && conda clean -tipsy
 
 # Install additional R packages
