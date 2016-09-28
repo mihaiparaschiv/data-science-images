@@ -38,6 +38,11 @@ RUN pip3 install \
     'matplotlib_venn==0.11.*' \
     'git+git://github.com/paulgb/sklearn-pandas.git@7a3c997a00d23135cfcfe6320c4886cdbccf6ee8'
 
+# Install XGBoost
+# See https://github.com/jupyter/docker-stacks/wiki/Docker-recipes#use-xgboost
+RUN conda install -n root -y gcc
+RUN pip3 install "xgboost==0.6a2"
+
 
 # Install R ###################################################################
 
@@ -70,3 +75,6 @@ RUN R --vanilla -e "\
     install.packages(c('ROCR', 'BTYD'), \
     repos='http://cran.us.r-project.org', \
     lib='${CONDA_DIR}/lib/R/library')"
+
+
+ENV TERM xterm
