@@ -1,7 +1,7 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
-FROM jupyter/scipy-notebook:54838ed4acb1
+FROM jupyter/scipy-notebook:d0b2d159cc6c
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 
 
@@ -26,17 +26,15 @@ USER $NB_USER
 
 # Install Python packages in Python 3 environment #############################
 
-# Update packages available in Anaconda
-RUN conda install -n root --quiet --yes \
-    'seaborn' \
-    && conda clean -tipsy
-
-# Install other Python packages
+# Install Python packages from PyPI
 RUN pip3 install \
     'lifelines==0.9.*' \
     'lifetimes==0.2.*' \
-    'matplotlib_venn==0.11.*' \
-    'git+git://github.com/paulgb/sklearn-pandas.git@7a3c997a00d23135cfcfe6320c4886cdbccf6ee8'
+    'matplotlib_venn==0.11.*'
+
+# Install Python packages from source
+RUN pip3 install \
+    'git+git://github.com/paulgb/sklearn-pandas.git@47148d7401a1419f621b7dfa66565b84b61a6dc6'
 
 # Install XGBoost
 # See https://github.com/jupyter/docker-stacks/wiki/Docker-recipes#use-xgboost
@@ -49,8 +47,8 @@ RUN pip3 install "xgboost==0.6a2"
 # Install R in Python 3 environment
 RUN conda config --add channels r && \
     conda install --quiet --yes \
-    'r-base=3.3*' \
     'rpy2=2.8*' \
+    'r-base=3.3.1 1*' \
     'r-irkernel=0.6*' \
     'r-plyr=1.8*' \
     'r-devtools=1.11*' \
@@ -68,6 +66,11 @@ RUN conda config --add channels r && \
     'r-randomforest=4.6*' \
     'r-lubridate=1.5*' \
     'r-xts=0.9*' \
+    # the following are required by the other packages
+    # build 6 is missing https://conda.anaconda.org/r/linux-64/harfbuzz-0.9.35-6.tar.bz2
+    'harfbuzz=0.9.35 4' \
+    # build 3 is missing https://anaconda.org/r/pango/1.36.8/download/linux-64/pango-1.36.8-3.tar.bz2
+    'pango=1.36.8 2' \
     && conda clean -tipsy
 
 # Install additional R packages
