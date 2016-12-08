@@ -1,7 +1,7 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
-FROM jupyter/scipy-notebook:d0b2d159cc6c
+FROM jupyter/scipy-notebook:18e5563b7486
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 
 
@@ -48,8 +48,8 @@ RUN pip3 install "xgboost==0.6a2"
 RUN conda config --add channels r && \
     conda install --quiet --yes \
     'rpy2=2.8*' \
-    'r-base=3.3.1 1*' \
-    'r-irkernel=0.6*' \
+    'r-base=3.3.1 1' \
+    'r-irkernel=0.7*' \
     'r-plyr=1.8*' \
     'r-devtools=1.11*' \
     'r-dplyr=0.4*' \
@@ -66,11 +66,6 @@ RUN conda config --add channels r && \
     'r-randomforest=4.6*' \
     'r-lubridate=1.5*' \
     'r-xts=0.9*' \
-    # the following are required by the other packages
-    # build 6 is missing https://conda.anaconda.org/r/linux-64/harfbuzz-0.9.35-6.tar.bz2
-    'harfbuzz=0.9.35 4' \
-    # build 3 is missing https://anaconda.org/r/pango/1.36.8/download/linux-64/pango-1.36.8-3.tar.bz2
-    'pango=1.36.8 2' \
     && conda clean -tipsy
 
 # Install additional R packages
