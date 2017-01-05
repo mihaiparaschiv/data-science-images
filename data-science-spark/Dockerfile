@@ -8,14 +8,19 @@ MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 USER root
 
 # Install Spark
-ENV APACHE_SPARK_VERSION 2.0.0
-RUN apt-get -y update && \
-    apt-get install -y --no-install-recommends openjdk-7-jre-headless && \
+ENV APACHE_SPARK_VERSION=2.1.0
+ENV APACHE_SPARK_SHA512=3fc94096ae34f9a1a148d37e5ed640a7e5de1812f1f2ecd715d92bbf2901e895cf4b93e6d8ee0d64debb5df7c56d673c0a36e5fc49503ec0f4507eb0edf961a4
+
+RUN echo 'deb http://cdn-fastly.deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
+    apt-get -y update && \
+    apt-get install -y --no-install-recommends openjdk-8-jre-headless && \
+    rm /etc/apt/sources.list.d/jessie-backports.list && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 RUN cd /tmp && \
         wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz && \
-        echo "8a14410a906926d2593e45e1ffd7e26c4e9223df94ad9902fc62cad6b900a8fcc22944fb6e9dfc2c4b35066a7d0c1e676ce4d0db35dee36dac2deea6b83c1f24 *spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz" | shasum -a 512 -c - && \
+        echo "${APACHE_SPARK_SHA512} *spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz" | shasum -a 512 -c - && \
         tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz -C /usr/local && \
         rm spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz
 RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7 spark

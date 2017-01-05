@@ -1,7 +1,7 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
-FROM jupyter/scipy-notebook:18e5563b7486
+FROM jupyter/scipy-notebook:6018daa19365
 MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
 
 
@@ -29,12 +29,12 @@ USER $NB_USER
 # Install Python packages from PyPI
 RUN pip3 install \
     'lifelines==0.9.*' \
-    'lifetimes==0.2.*' \
+    'lifetimes==0.6.*' \
     'matplotlib_venn==0.11.*'
 
 # Install Python packages from source
 RUN pip3 install \
-    'git+git://github.com/paulgb/sklearn-pandas.git@47148d7401a1419f621b7dfa66565b84b61a6dc6'
+    'git+git://github.com/paulgb/sklearn-pandas.git@edfbe941c127b2d1cddebd0119dac8d0ff1f8a08'
 
 # Install XGBoost
 # See https://github.com/jupyter/docker-stacks/wiki/Docker-recipes#use-xgboost

@@ -2,7 +2,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 OWNER=mihaiparaschiv
-VERSION=0.2.4
+VERSION=0.2.5
 
 
 docker build -t ${OWNER}/data-science-base:latest ./data-science-base
