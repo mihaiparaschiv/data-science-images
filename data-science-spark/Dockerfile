@@ -13,7 +13,7 @@ ENV APACHE_SPARK_SHA512=3fc94096ae34f9a1a148d37e5ed640a7e5de1812f1f2ecd715d92bbf
 
 RUN echo 'deb http://cdn-fastly.deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
     apt-get -y update && \
-    apt-get install -y --no-install-recommends openjdk-8-jre-headless && \
+    apt-get install --no-install-recommends -t jessie-backports -y openjdk-8-jre-headless ca-certificates-java && \
     rm /etc/apt/sources.list.d/jessie-backports.list && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
