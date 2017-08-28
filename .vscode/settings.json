@@ -1,0 +1,16 @@
+{
+    "python.linting.pep8Enabled": true,
+    "python.formatting.formatOnSave": true,
+    "python.formatting.provider": "autopep8",
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/__pycache__": true,
+        "**/.ipynb_checkpoints": true
+    },
+
+    "files.eol": "\n",
+
+    "files.insertFinalNewline": true
+}
