@@ -2,28 +2,27 @@
 # Distributed under the terms of the Modified BSD License.
 
 FROM mihaiparaschiv/data-science-base:latest
-MAINTAINER Mihai Paraschiv <mihai.paraschiv@gmail.com>
+LABEL maintainer='mihai.paraschiv@gmail.com'
 
 
 USER root
 
 # Install Spark
-ENV APACHE_SPARK_VERSION=2.1.0
-ENV APACHE_SPARK_SHA512=3fc94096ae34f9a1a148d37e5ed640a7e5de1812f1f2ecd715d92bbf2901e895cf4b93e6d8ee0d64debb5df7c56d673c0a36e5fc49503ec0f4507eb0edf961a4
+ENV APACHE_SPARK_VERSION=2.2.0
+ENV HADOOP_VERSION 2.7
+ENV APACHE_SPARK_SHA512=7a186a2a007b2dfd880571f7214a7d329c972510a460a8bdbef9f7f2a891019343c020f74b496a61e5aa42bc9e9a79cc99defe5cb3bf8b6f49c07e01b259bc6b
 
-RUN echo 'deb http://cdn-fastly.deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
-    apt-get -y update && \
-    apt-get install --no-install-recommends -t jessie-backports -y openjdk-8-jre-headless ca-certificates-java && \
-    rm /etc/apt/sources.list.d/jessie-backports.list && \
+RUN apt-get -y update && \
+    apt-get install --no-install-recommends -y openjdk-8-jre-headless ca-certificates-java && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
-        wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz && \
-        echo "${APACHE_SPARK_SHA512} *spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz" | shasum -a 512 -c - && \
-        tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz -C /usr/local && \
-        rm spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7.tgz
-RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop2.7 spark
+        wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+        echo "${APACHE_SPARK_SHA512} *spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" | sha512sum -c - && \
+        tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /usr/local && \
+        rm spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark
 
 # Spark configuration
 ENV SPARK_HOME /usr/local/spark

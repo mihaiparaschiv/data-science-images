@@ -1,8 +1,10 @@
 # Copyright (c) Mihai Paraschiv.
 # Distributed under the terms of the Modified BSD License.
 
+set -e
+
 OWNER=mihaiparaschiv
-VERSION=0.2.6
+VERSION=0.2.7
 
 
 docker build -t ${OWNER}/data-science-base:latest ./data-science-base
