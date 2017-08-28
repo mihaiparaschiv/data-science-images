@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+*.txt text
+*.py text
+*.sh text
+*.env text
+*.cfg text
+*.json text
+*.yml text
+*.csv text
+*.rst text
+*.in text
+Dockerfile* text
+Makefile text
