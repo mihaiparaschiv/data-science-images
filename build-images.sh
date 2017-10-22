@@ -4,7 +4,7 @@
 set -e
 
 OWNER=mihaiparaschiv
-VERSION=0.2.7
+VERSION=0.2.8
 
 
 docker build -t ${OWNER}/data-science-base:latest ./data-science-base
